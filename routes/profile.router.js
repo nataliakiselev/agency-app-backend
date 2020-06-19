@@ -1,16 +1,21 @@
 import { Router } from "express";
 import controllers from "../controllers/profile.controllers";
+import upload from "./../upload";
 
 const router = Router();
 
-// /api/list
-router.route("/").get(controllers.getMany).post(controllers.createOne);
+// /api/profiles
+router.get("/", controllers.getAll);
+//   // .post(upload.array("photos", 10), controllers.createOne);
+//   .post(controllers.createOne);
+// //upload.single("avatar"),
+router.get("/:id", controllers.getOne);
+// router.use(protect)
+router.get("/user/:uid", controllers.getMany);
 
-// /api/list/:id
-router
-  .route("/:id")
-  .get(controllers.getOne)
-  .put(controllers.updateOne)
-  .delete(controllers.removeOne);
+router.post("/", controllers.createOne);
+
+// /api/profiles/:id
+router.route("/:id").put(controllers.updateOne).delete(controllers.removeOne);
 
 export default router;

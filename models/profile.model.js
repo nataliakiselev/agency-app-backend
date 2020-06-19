@@ -1,43 +1,99 @@
 import mongoose from "mongoose";
 
-var _ = require("lodash");
-
-const profileSchema = new mongoose.Schema(
+const Schema = mongoose.Schema;
+const profileSchema = new Schema(
   {
-    firstName: {
+    name: {
+      first: {
+        type: String,
+        required: true,
+      },
+      last: {
+        type: String,
+        required: true,
+      },
+    },
+    height: {
       type: String,
+
       required: true,
     },
-    lastName: {
+
+    bust: {
       type: String,
       required: true,
     },
 
-    gender: String,
-    location: {
-      city: String,
-      country: String,
+    waist: {
+      type: String,
+      required: true,
+    },
+
+    hips: {
+      type: String,
+      required: true,
+    },
+
+    shoes: {
+      type: String,
+      required: true,
+    },
+    hair: {
+      type: String,
+      // required: true,
+    },
+
+    eyes: {
+      type: String,
+      // required: true,
     },
 
     email: {
       type: String,
-      required: true,
       unique: true,
       trim: true,
     },
-    phone: Number,
+
+    phone: {
+      type: String,
+      required: true,
+    },
+
+    notes: {
+      type: String,
+    },
+
+    // list: {
+    //   type: mongoose.SchemaTypes.ObjectId,
+    //   ref: "list",
+    //   required: true,
+    // },
+    agent: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: "user",
+      // required: true,
+    },
+
+    avatar: {
+      type: String,
+      // required: true,
+    },
+    // photos: [
+    //   {
+    //     path: {
+    //       type: String,
+    //       required: true,
+    //     },
+    //     name: {
+    //       type: String,
+    //       required: true,
+    //     },
+    //   },
+    // ],
   },
   { timestamps: true },
 );
 
-profileSchema
-  .virtual("name.full")
-  .get(function () {
-    return _.startCase(this.name.first + " " + this.name.last);
-  })
-  .set(function (value) {
-    this.name.first = value.substr(0, v.indexOf(" "));
-    this.name.last = value.substr(v.indexOf(" ") + 1);
-  });
+profileSchema.index({ user: 1, name: 1 }, { unique: true });
 
 export const Profile = mongoose.model("Profile", profileSchema);

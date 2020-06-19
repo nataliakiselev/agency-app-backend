@@ -21,13 +21,13 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    // profiles: [
-    //   {
-    //     type: mongoose.SchemaTypes.ObjectId,
-    //     ref: "profile",
-    //     required: true,
-    //   },
-    // ],
+    profiles: [
+      {
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: "profile",
+        // required: true,
+      },
+    ],
   },
   { timestamps: true },
 );

@@ -14,28 +14,28 @@ const profileSchema = new Schema(
       },
     },
     height: {
-      type: String,
+      type: Number,
 
       required: true,
     },
 
     bust: {
-      type: String,
+      type: Number,
       required: true,
     },
 
     waist: {
-      type: String,
+      type: Number,
       required: true,
     },
 
     hips: {
-      type: String,
+      type: Number,
       required: true,
     },
 
     shoes: {
-      type: String,
+      type: Number,
       required: true,
     },
     hair: {
@@ -55,7 +55,7 @@ const profileSchema = new Schema(
     },
 
     phone: {
-      type: String,
+      type: Number,
       required: true,
     },
 

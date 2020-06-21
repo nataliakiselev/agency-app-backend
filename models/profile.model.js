@@ -74,7 +74,7 @@ const profileSchema = new Schema(
       // required: true,
     },
 
-    avatar: {
+    mainImg: {
       type: String,
       // required: true,
     },

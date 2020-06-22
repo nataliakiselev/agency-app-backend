@@ -38,6 +38,7 @@ app.use((req, res, next) => {
   res.status(404).send({ message: "Could not find the route" });
 });
 app.use((error, req, res, next) => {
+  console.log("Error", error);
   if (res.headerSent) {
     return next(error);
   }

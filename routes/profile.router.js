@@ -13,7 +13,19 @@ router.get("/:id", controllers.getOne);
 // router.use(protect)
 router.get("/user/:uid", controllers.getMany);
 
-router.post("/", controllers.createOne);
+router.post(
+  "/",
+  upload.single("avatar"),
+  (req, res, next) => {
+    const { firstName: first, lastName: last } = req.body;
+    req.body.name = {
+      first,
+      last,
+    };
+    next();
+  },
+  controllers.createOne
+);
 
 // /api/profiles/:id
 router.route("/:id").put(controllers.updateOne).delete(controllers.removeOne);

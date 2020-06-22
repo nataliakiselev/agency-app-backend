@@ -25,7 +25,7 @@ export const getAll = (model) => async (req, res) => {
 };
 export const getMany = (model) => async (req, res) => {
   try {
-    const docs = await model.find({ agent: req.params.uid }).exec(); //{ agent: req.params.uid }
+    const docs = await model.find({ agent: req.params.uid }).exec(); //{ agent: req.params._id }
     console.log(req.params.uid, "agentId");
     if (!docs || docs.length === 0) {
       return res

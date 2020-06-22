@@ -34,7 +34,7 @@ export const signin = async (req, res) => {
 
   try {
     const user = await User.findOne({ email: req.body.email })
-      .select("email password") // Why are you sending the PW back here??
+      // .select("email password") // Why are you sending the PW back here??
       .exec();
 
     if (!user) {

@@ -19,7 +19,7 @@ export const signup = async (req, res) => {
   try {
     const user = await User.create(req.body);
 
-    res.status(201).json({ data: user });
+    res.status(201).json({ user });
   } catch (err) {
     return res.status(500).end();
   }

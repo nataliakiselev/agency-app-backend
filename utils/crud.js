@@ -32,7 +32,8 @@ export const getMany = (model) => async (req, res) => {
         .status(400)
         .send({ message: "Could not find profiles for this user" });
     }
-    res.status(200).json({ data: docs.map((doc) => doc.toObject()) });
+    res.status(200).json({ data: docs });
+    // res.status(200).json({ data: docs.map((doc) => doc.toObject()) });
   } catch (err) {
     console.error(err);
     res.status(400).end();
@@ -43,9 +44,10 @@ export const createOne = (model) => async (req, res) => {
 
   console.log("body", req.body);
   console.log("Headers", req.headers);
+
   try {
-    // req.body.avatar = req.file.path;
-    const doc = await model.create(req.body); //({...req.body, agent})
+    req.body.mainImg = req.file.path;
+    const doc = await model.create(req.body);
     res.status(201).json(doc);
   } catch (err) {
     console.error(err);

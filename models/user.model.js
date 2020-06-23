@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema(
       {
         type: mongoose.SchemaTypes.ObjectId,
         ref: "profile",
-        // required: true,
+        required: true,
       },
     ],
   },

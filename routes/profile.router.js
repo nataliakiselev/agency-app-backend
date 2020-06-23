@@ -15,7 +15,7 @@ router.get("/user/:uid", controllers.getMany);
 
 router.post(
   "/",
-  upload.single("avatar"),
+  upload.single("mainImg"),
   (req, res, next) => {
     const { firstName: first, lastName: last } = req.body;
     req.body.name = {
@@ -24,7 +24,7 @@ router.post(
     };
     next();
   },
-  controllers.createOne
+  controllers.createOne,
 );
 
 // /api/profiles/:id

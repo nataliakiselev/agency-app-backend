@@ -71,7 +71,7 @@ const profileSchema = new Schema(
     agent: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: "user",
-      // required: true,
+      required: true,
     },
 
     mainImg: {

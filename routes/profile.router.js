@@ -16,14 +16,14 @@ router.get("/user/:uid", controllers.getMany);
 router.post(
   "/",
   upload.single("mainImg"),
-  (req, res, next) => {
-    const { firstName: first, lastName: last } = req.body;
-    req.body.name = {
-      first,
-      last,
-    };
-    next();
-  },
+  // (req, res, next) => {
+  //   const { firstName: first, lastName: last } = req.body;
+  //   req.body.name = {
+  //     first,
+  //     last,
+  //   };
+  //   next();
+  // },
   controllers.createOne,
 );
 

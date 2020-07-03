@@ -28,10 +28,11 @@ export const getMany = (model) => async (req, res) => {
     const docs = await model.find({ agent: req.params.uid }).exec(); //{ agent: req.params._id }
     console.log(req.params.uid, "agentId");
     if (!docs || docs.length === 0) {
-      return res
-        .status(400)
-        .send({ message: "Could not find profiles for this user" });
+      return res.status(200).send({ data: [] });
     }
+    //     .status(400)
+    //     .send({ message: "Could not find profiles for this user" });
+    // }
     res.status(200).json({ data: docs });
     // res.status(200).json({ data: docs.map((doc) => doc.toObject()) });
   } catch (err) {

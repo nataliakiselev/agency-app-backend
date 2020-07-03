@@ -55,7 +55,7 @@ const profileSchema = new Schema(
     },
 
     phone: {
-      type: Number,
+      type: String,
       required: true,
     },
 

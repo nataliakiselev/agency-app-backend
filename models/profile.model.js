@@ -78,18 +78,18 @@ const profileSchema = new Schema(
       type: String,
       // required: true,
     },
-    // photos: [
-    //   {
-    //     path: {
-    //       type: String,
-    //       required: true,
-    //     },
-    //     name: {
-    //       type: String,
-    //       required: true,
-    //     },
-    //   },
-    // ],
+    photos: [
+      {
+        path: {
+          type: String,
+          required: true,
+        },
+        name: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
   },
   { timestamps: true },
 );

@@ -1,3 +1,5 @@
+import fs from "fs";
+
 export const getOne = (model) => async (req, res) => {
   try {
     const doc = await model.findOne({ _id: req.params.id }).lean().exec();
@@ -90,7 +92,10 @@ export const removeOne = (model) => async (req, res) => {
     const removed = await model.findOneAndRemove({
       _id: req.params.id,
     });
-
+    const imagePath = removed.mainImg;
+    fs.unlink(imagePath, (err) => {
+      console.log(err);
+    });
     if (!removed) {
       return res.status(400).end();
     }

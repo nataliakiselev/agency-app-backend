@@ -3,7 +3,8 @@ import express from "express";
 import mongoose from "mongoose";
 import bodyparser from "body-parser";
 import cors from "cors";
-// import { signup } from "./utils/auth";
+import fs from "fs";
+import path from "path";
 import userRouter from "./routes/user.router";
 import profileRouter from "./routes/profile.router";
 
@@ -24,7 +25,7 @@ const connect = (url = process.env.DB_URL) => {
   });
 };
 
-app.use(express.static("public"));
+// app.use(express.static("public"));
 app.use("/uploads", express.static("uploads"));
 
 app.use("/api/profiles", profileRouter);
@@ -38,7 +39,9 @@ app.use((req, res, next) => {
   res.status(404).send({ message: "Could not find the route" });
 });
 app.use((error, req, res, next) => {
-  console.log("Error", error);
+  if (req.file) {
+    fs.unlink(req.file.path, (err) => console.log(err));
+  }
   if (res.headerSent) {
     return next(error);
   }

@@ -27,7 +27,7 @@ export const getAll = (model) => async (req, res) => {
 };
 export const getMany = (model) => async (req, res) => {
   try {
-    const docs = await model.find({ agent: req.params.uid }).exec(); //{ agent: req.params._id }
+    const docs = await model.find({ agent: req.params.uid }).exec();
     console.log(req.params.uid, "agentId");
     if (!docs || docs.length === 0) {
       return res.status(200).send({ data: [] });
@@ -36,7 +36,6 @@ export const getMany = (model) => async (req, res) => {
     //     .send({ message: "Could not find profiles for this user" });
     // }
     res.status(200).json({ data: docs });
-    // res.status(200).json({ data: docs.map((doc) => doc.toObject()) });
   } catch (err) {
     console.error(err);
     res.status(400).end();
@@ -100,11 +99,12 @@ export const removeOne = (model) => async (req, res) => {
       return res.status(400).end();
     }
 
-    return res.status(200).json({ data: removed });
+    return res.status(204).json({ data: removed });
   } catch (e) {
     console.error(e);
     res.status(400).send(e);
   }
+  // Add ownership check after adding Authentication
 };
 
 export const crudControllers = (model) => ({

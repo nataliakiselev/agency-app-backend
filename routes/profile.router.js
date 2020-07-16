@@ -1,7 +1,7 @@
 import { Router } from "express";
-import controllers from "../controllers/profile.controllers";
+import controllers, { deletePhoto } from "../controllers/profile.controllers";
 import upload from "./../upload";
-import { addPhotos } from "../controllers/profile.controllers";
+import { addPhotos, updateCover } from "../controllers/profile.controllers";
 const router = Router();
 
 // /api/profiles
@@ -26,7 +26,13 @@ router.post(
 );
 
 // /api/profiles/:id
-router.route("/:id").put(controllers.updateOne).delete(controllers.removeOne);
-router.post("/:id/upload", upload.array("photos", 10), addPhotos);
+
+router
+  .route("/:id")
+  .put(controllers.updateOne)
+  .delete(controllers.removeOne)
+  .post(upload.array("photos", 10), addPhotos);
+router.put("/:id/updatecover", upload.single("mainImg"), updateCover);
+router.delete("/:id/photo/:photo_id", deletePhoto);
 
 export default router;

@@ -67,8 +67,8 @@ export const deletePhoto = (req, res) => {
     // console.log(removedId, "removedId");
 
     const removed = result.photos.find((photo) => {
-      // console.log(photo._id, removedId, photo._id === removedId);
-      return photo._id === removedId;
+      // console.log(photo._id, removedId, photo._id.toString() === removedId);    //NB:typeof
+      return photo._id.toString() === removedId;
     });
     console.log(removed, "removed");
     const deletedPath = removed.path;
@@ -76,7 +76,7 @@ export const deletePhoto = (req, res) => {
 
     fs.unlink(deletedPath, (err) => {
       if (err) return res.status(500).send("Failed to unlink photo");
-      result.photos.pull(photoId);
+      result.photos.pull(removed);
       result.save((err, result) => {
         if (err) return res.status(500).send("failed to save");
         if (!result) return res.sendStatus(404);

@@ -93,8 +93,17 @@ export const removeOne = (model) => async (req, res) => {
     });
     const imagePath = removed.mainImg;
     fs.unlink(imagePath, (err) => {
-      console.log(err);
+      if (err) return res.status(500).send("Failed to unlink mainImg");
     });
+
+    removed.photos.map((photo) => {
+      const photoPath = photo.path;
+      console.log(photoPath, "path");
+      fs.unlink(photoPath, (err) => {
+        if (err) return res.status(500).send("Failed to unlink photos");
+      });
+    });
+
     if (!removed) {
       return res.status(400).end();
     }

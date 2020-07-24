@@ -27,8 +27,9 @@ export const getAll = (model) => async (req, res) => {
 };
 export const getMany = (model) => async (req, res) => {
   try {
-    const docs = await model.find({ agent: req.params.uid }).exec();
-    console.log(req.params.uid, "agentId");
+    const docs = await model.find({ agent: req.params.id }).exec();
+    console.log(req.params);
+    console.log(req.params.id, "agentId");
     if (!docs || docs.length === 0) {
       return res.status(200).send({ data: [] });
     }
@@ -56,17 +57,13 @@ export const createOne = (model) => async (req, res) => {
     res.status(400).send(err);
   }
 };
-//  model.photos = [...model.photos, ...req.files.map(file => {
-//     return {
-//       path: file.path,
-//       name: file.originalname
-//     };
 
 export const updateOne = (model) => async (req, res) => {
   try {
     const updatedDoc = await model
       .findOneAndUpdate(
         {
+          agent: req.user._id,
           _id: req.params.id,
         },
         req.body,
@@ -89,6 +86,7 @@ export const updateOne = (model) => async (req, res) => {
 export const removeOne = (model) => async (req, res) => {
   try {
     const removed = await model.findOneAndRemove({
+      agent: req.user._id,
       _id: req.params.id,
     });
     const imagePath = removed.mainImg;
@@ -113,7 +111,6 @@ export const removeOne = (model) => async (req, res) => {
     console.error(e);
     res.status(400).send(e);
   }
-  // Add ownership check after adding Authentication
 };
 
 export const crudControllers = (model) => ({

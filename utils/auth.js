@@ -1,4 +1,23 @@
+import dotenv from "dotenv";
 import { User } from "../models/user.model";
+import jwt from "jsonwebtoken";
+
+dotenv.config();
+
+export const newToken = (user) =>
+  jwt.sign({ userId: user.id }, "secret", {
+    expiresIn: "2h",
+  });
+// process.env.secrets.jwtExp;
+// process.env.secrets.jwt,
+export const verifyToken = (token) =>
+  new Promise((resolve, reject) => {
+    jwt.verify(token, "secret", (err, payload) => {
+      if (err) return reject(err);
+      resolve(payload);
+      console.log(payload, "payload");
+    });
+  });
 
 export const signup = async (req, res) => {
   if (!req.body.email || !req.body.password) {
@@ -18,8 +37,8 @@ export const signup = async (req, res) => {
   }
   try {
     const user = await User.create(req.body);
-
-    res.status(201).json({ user });
+    const token = newToken(user);
+    res.status(201).json({ token }); //userId: user.id, email: user.email,
   } catch (err) {
     return res.status(500).end();
   }
@@ -33,9 +52,8 @@ export const signin = async (req, res) => {
   const invalid = { message: "Invalid email and password combination" };
 
   try {
-    const user = await User.findOne({ email: req.body.email })
-      // .select("email password") // Why are you sending the PW back here??
-      .exec();
+    console.log(req.body);
+    const user = await User.findOne({ email: req.body.email }).exec();
 
     if (!user) {
       return res.status(401).send(invalid);
@@ -46,10 +64,46 @@ export const signin = async (req, res) => {
     if (!match) {
       return res.status(401).send(invalid);
     }
-
-    return res.status(201).send({ user });
+    const token = newToken(user);
+    return res.status(201).send({
+      userId: user.id,
+      token: token,
+    }); //userId: user.id, email: user.email,
   } catch (e) {
     console.error(e);
     res.status(500).end();
   }
+};
+
+export const protect = async (req, res, next) => {
+  if (req.method === "OPTIONS") {
+    return next();
+  }
+  const bearer = req.headers.authorization;
+  if (!bearer || !bearer.startsWith("Bearer")) {
+    return res.status(401).end();
+  }
+  const token = bearer.split("Bearer ")[1].trim();
+  let payload;
+  try {
+    console.log("verifying");
+    payload = await verifyToken(token);
+    console.log(payload.userId, "payload.id");
+  } catch (e) {
+    return res.status(401).end();
+  }
+
+  // const user = await User.findById(payload.userId)
+  //   .select("-password")
+  //   .lean()
+  //   .exec();
+  // console.log(user);
+  // if (!user) {
+  //   return res.status(401).end();
+  // }
+  // req.user = user;
+  req.userData = { userId: payload.userId };
+  console.log("req.user", req.userData);
+
+  next();
 };

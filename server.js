@@ -4,7 +4,6 @@ import mongoose from "mongoose";
 import bodyparser from "body-parser";
 import cors from "cors";
 import fs from "fs";
-import path from "path";
 import userRouter from "./routes/user.router";
 import profileRouter from "./routes/profile.router";
 
@@ -29,10 +28,11 @@ const connect = (url = process.env.DB_URL) => {
 app.use("/uploads", express.static("uploads"));
 
 app.use("/api/profiles", profileRouter);
+
 app.use("/api/users", userRouter);
-app.get("/api", (req, res) => {
-  res.send(`mern app is running on ${port}`);
-});
+// app.get("/api", (req, res) => {
+//   res.send(`mern app is running on ${port}`);
+// });
 
 //handle unsupported routes
 app.use((req, res, next) => {

@@ -2,8 +2,8 @@ import { Router } from "express";
 import { signup, signin } from "../utils/auth";
 import {
   getAllUsers,
-  getUser,
-  updateUser,
+  // getUser,
+  // updateUser,
 } from "../controllers/user.controllers";
 
 const router = Router();

@@ -2,15 +2,16 @@ import { Router } from "express";
 import controllers, { deletePhoto } from "../controllers/profile.controllers";
 import upload from "./../upload";
 import { addPhotos, updateCover } from "../controllers/profile.controllers";
+import { protect } from "../utils/auth";
 const router = Router();
 
 // /api/profiles
 router.get("/", controllers.getAll);
 
 router.get("/:id", controllers.getOne);
-// router.use(protect)
-router.get("/user/:uid", controllers.getMany);
+router.get("/user/:id", controllers.getMany);
 
+router.use(protect);
 router.post(
   "/",
   upload.single("mainImg"),

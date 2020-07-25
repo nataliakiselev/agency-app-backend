@@ -9,7 +9,11 @@ export const addPhotos = (req, res) => {
     if (err) return res.status(400).end();
     if (!result.length) return res.sendStatus(404);
     const profile = result[0];
-
+    if (profile.agent.toString() !== req.userData.userId) {
+      return res.status(401).send({
+        message: "You are not allowed to edit this profile.",
+      });
+    }
     profile.photos = [
       ...profile.photos,
       ...req.files.map((file) => {
@@ -29,22 +33,12 @@ export const addPhotos = (req, res) => {
 
 export const updateCover = (req, res) => {
   console.log(req.params.id, "profile.id");
-  Profile.find({
-    _id: req.params.id,
-  }).exec((err, result) => {
+
+  Profile.find({ _id: req.params.id }).exec((err, result) => {
     if (err) return res.status(400).end();
     if (!result.length) return res.sendStatus(404);
-
+    console.log(result, "result");
     const profile = result[0];
-    console.log(
-      profile.agent,
-      "agent",
-      typeof profile.agent,
-      "userId",
-      req.userData.userId,
-
-      typeof req.userData.userId,
-    );
 
     if (profile.agent.toString() !== req.userData.userId) {
       return res.status(401).send({
@@ -74,7 +68,7 @@ export const deletePhoto = (req, res) => {
     if (!result) return res.sendStatus(404);
     console.log(result.agent, "agent");
     // Add ownership check after adding Authentication
-    if (result.agent !== req.user._id) {
+    if (result.agent.toString() !== req.userData.userId) {
       return res.status(401).send({
         message: "You are not allowed to edit this profile.",
       });

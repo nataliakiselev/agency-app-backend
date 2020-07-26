@@ -1,4 +1,5 @@
 import fs from "fs";
+import util from "util";
 
 export const getOne = (model) => async (req, res) => {
   try {
@@ -29,7 +30,7 @@ export const getMany = (model) => async (req, res) => {
   try {
     const docs = await model.find({ agent: req.params.id }).exec();
     console.log(req.params);
-    console.log(req.params._id, "agentId");
+    console.log(req.params.id, "agentId");
     if (!docs || docs.length === 0) {
       return res.status(200).send({ data: [] });
     }
@@ -44,8 +45,6 @@ export const getMany = (model) => async (req, res) => {
   }
 };
 export const createOne = (model) => async (req, res) => {
-  //const agent = req.user._id;
-
   console.log("body", req.body);
   console.log("Headers", req.headers);
 
@@ -64,6 +63,7 @@ export const updateOne = (model) => async (req, res) => {
     const updatedDoc = await model
       .findOneAndUpdate(
         {
+          agent: req.user._id,
           _id: req.params.id,
         },
         req.body,
@@ -72,11 +72,14 @@ export const updateOne = (model) => async (req, res) => {
       .lean()
       .exec();
 
+    console.log("updatedDoc", updatedDoc);
+
     // const agentId = model.agent.toString();
+    // if (req.userData.userId !== updatedDoc.agent)
     // if (agentId !== req.user.userId) {
-    //   return res.status(401).send({
-    //     message: "You are not allowed to edit this profile.",
-    //   });
+    // return res.status(401).send({
+    //   message: "You are not allowed to edit this profile.",
+    // });
     // }
     if (!updatedDoc) {
       return res.status(404).end();

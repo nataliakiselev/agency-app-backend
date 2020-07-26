@@ -1,11 +1,12 @@
 import dotenv from "dotenv";
 import { User } from "../models/user.model";
 import jwt from "jsonwebtoken";
+import { response } from "express";
 
 dotenv.config();
 
 export const newToken = (user) =>
-  jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
+  jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXP,
   });
 
@@ -36,8 +37,9 @@ export const signup = async (req, res) => {
   }
   try {
     const user = await User.create(req.body);
+    console.log("user", user);
     const token = newToken(user);
-    res.status(201).json({ token }); //userId: user.id, email: user.email,
+    res.status(201).json({ token: token, userId: user.id }); // email: user.email || user
   } catch (err) {
     return res.status(500).end();
   }
@@ -64,10 +66,13 @@ export const signin = async (req, res) => {
       return res.status(401).send(invalid);
     }
     const token = newToken(user);
-    return res.status(201).send({
-      userId: user.id,
-      token: token,
-    }); //userId: user.id, email: user.email,
+    // const response = {
+    //   user,
+    //   token,
+    // };
+    // delete response.user.password;
+    // return res.status(201).send(response);
+    return res.status(201).send({ token: token, userId: user._id }); // email: user.email,
   } catch (e) {
     console.error(e);
     res.status(500).end();
@@ -92,17 +97,18 @@ export const protect = async (req, res, next) => {
     return res.status(401).end();
   }
 
-  // const user = await User.findById(payload.userId)
-  //   .select("-password")
-  //   .lean()
-  //   .exec();
-  // console.log(user);
-  // if (!user) {
-  //   return res.status(401).end();
-  // }
-  // req.user = user;
-  req.userData = { userId: payload.userId };
-  console.log("req.user", req.userData);
+  const user = await User.findById(payload.userId)
+    .select("-password")
+    .lean()
+    .exec();
+  console.log(user);
+  if (!user) {
+    return res.status(401).end();
+  }
+  req.user = user;
+  console.log(req.user, "user");
+  // req.userData = { userId: payload.userId };
+  // console.log("req.user", req.userData);
 
   next();
 };

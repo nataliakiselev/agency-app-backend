@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import { User } from "../models/user.model";
 import jwt from "jsonwebtoken";
+import { response } from "express";
 
 dotenv.config();
 
@@ -36,6 +37,7 @@ export const signup = async (req, res) => {
   }
   try {
     const user = await User.create(req.body);
+    console.log('user', user)
     const token = newToken(user);
     res.status(201).json({ token }); //userId: user.id, email: user.email,
   } catch (err) {
@@ -64,10 +66,12 @@ export const signin = async (req, res) => {
       return res.status(401).send(invalid);
     }
     const token = newToken(user);
-    return res.status(201).send({
-      userId: user.id,
-      token: token,
-    }); //userId: user.id, email: user.email,
+    const response = {
+      user,
+      token,
+    };
+    delete response.user.password;
+    return res.status(201).send(response); //userId: user.id, email: user.email,
   } catch (e) {
     console.error(e);
     res.status(500).end();

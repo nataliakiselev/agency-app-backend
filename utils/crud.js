@@ -1,4 +1,5 @@
 import fs from "fs";
+import util from "util";
 
 export const getOne = (model) => async (req, res) => {
   try {
@@ -66,18 +67,22 @@ export const updateOne = (model) => async (req, res) => {
         {
           agent: req.user._id,
           _id: req.params.id,
+          agent: req.userData.userId,
         },
         req.body,
-        { new: true },
+        { new: true }
       )
       .lean()
       .exec();
 
+      console.log("updatedDoc", updatedDoc);
+
     // const agentId = model.agent.toString();
+    // if (req.userData.userId !== updatedDoc.agent)
     // if (agentId !== req.user.userId) {
-    //   return res.status(401).send({
-    //     message: "You are not allowed to edit this profile.",
-    //   });
+      // return res.status(401).send({
+      //   message: "You are not allowed to edit this profile.",
+      // });
     // }
     if (!updatedDoc) {
       return res.status(404).end();

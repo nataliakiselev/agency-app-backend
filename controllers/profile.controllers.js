@@ -62,9 +62,14 @@ export const deletePhoto = (req, res) => {
       if (err) return res.status(400).end();
       if (!result) return res.sendStatus(404);
 
+<<<<<<< HEAD
       const profile = result[0];
       const removedId = req.params.photo_id;
       // console.log(removedId, "removedId");
+=======
+    const removedId = req.params.photo_id;
+    console.log(removedId, "removedId");
+>>>>>>> 1f56635e88ea9013f1fc4ecbb06ab70d5780bdc2
 
       const removed = profile.photos.find((photo) => {
         // console.log(photo._id, removedId, photo._id.toString() === removedId);

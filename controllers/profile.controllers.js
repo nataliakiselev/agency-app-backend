@@ -1,7 +1,7 @@
 import { crudControllers } from "../utils/crud";
 import { Profile } from "../models/profile.model";
 import fs from "fs";
-import util from 'util';
+import util from "util";
 
 export const addPhotos = (req, res) => {
   Profile.find({
@@ -79,18 +79,21 @@ export const deletePhoto = (req, res) => {
     console.log(removedId, "removedId");
 
     const removed = result.photos.find((photo) => {
-      // console.log(photo._id, removedId, photo._id.toString() === removedId);    //NB:typeof
-      console.log(util.inspect(photo._id, {
-        depth: 10,
-        colors: true,
-        showHidden: true,
-      }))
+      // console.log(photo._id, removedId, photo._id.toString() === removedId);
+      //NB:typeof
+      console.log(
+        util.inspect(photo._id, {
+          depth: 10,
+          colors: true,
+          showHidden: true,
+        }),
+      );
       console.log(
         typeof photo._id,
         photo._id.toString(),
         typeof removedId,
         removedId,
-        photo._id.toString() === removedId
+        photo._id.toString() === removedId,
       );
       return photo._id.toString() === removedId;
     });

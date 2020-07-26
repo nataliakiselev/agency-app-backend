@@ -24,7 +24,7 @@ const connect = (url = process.env.DB_URL) => {
   });
 };
 
-mongoose.set('useCreateIndex', true);
+mongoose.set("useCreateIndex", true);
 
 // app.use(express.static("public"));
 app.use("/uploads", express.static("uploads"));

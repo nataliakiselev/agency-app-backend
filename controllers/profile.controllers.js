@@ -61,7 +61,7 @@ export const deletePhoto = (req, res) => {
       console.log(req.params);
       if (err) return res.status(400).end();
       if (!result) return res.sendStatus(404);
-
+      const profile = result[0];
       const removedId = req.params.photo_id;
       console.log(removedId, "removedId");
 

@@ -66,12 +66,13 @@ export const signin = async (req, res) => {
       return res.status(401).send(invalid);
     }
     const token = newToken(user);
-    const response = {
-      user,
-      token,
-    };
-    delete response.user.password;
-    return res.status(201).send(response); //userId: user.id, email: user.email,
+    // const response = {
+    //   user,
+    //   token,
+    // };
+    // delete response.user.password;
+    // return res.status(201).send(response);
+    return res.status(201).send({ token: token, userId: user._id }); // email: user.email,
   } catch (e) {
     console.error(e);
     res.status(500).end();

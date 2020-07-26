@@ -29,7 +29,7 @@ export const getMany = (model) => async (req, res) => {
   try {
     const docs = await model.find({ agent: req.params.id }).exec();
     console.log(req.params);
-    console.log(req.params._id, "agentId");
+    console.log(req.params.id, "agentId");
     if (!docs || docs.length === 0) {
       return res.status(200).send({ data: [] });
     }

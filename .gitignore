@@ -1,6 +1,6 @@
 node_modules
 .DS_Store
 # exclude everything
-uploads/*
+# uploads/*
 # exception to the rule
-!uploads/.gitkeep 
+# !uploads/.gitkeep 

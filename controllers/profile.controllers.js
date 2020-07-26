@@ -35,31 +35,33 @@ export const addPhotos = (req, res) => {
 export const updateCover = (req, res) => {
   console.log(req.params.id, "profile.id");
 
-  Profile.find({ _id: req.params.id }).exec((err, result) => {
-    if (err) return res.status(400).end();
-    if (!result.length) return res.sendStatus(404);
-    console.log(result, "result");
-    const profile = result[0];
-
-    if (profile.agent.toString() !== req.userData.userId) {
-      return res.status(401).send({
-        message: "You are not allowed to edit this profile.",
-      });
-    }
-    console.log(profile._id);
-    const oldPhoto = profile.mainImg;
-    console.log(oldPhoto);
-    fs.unlink(oldPhoto, (err) => {
-      console.log(err);
-    });
-    profile.mainImg = req.file.path;
-    console.log(profile.mainImg);
-    profile.save((err, profile) => {
+  Profile.find({ _id: req.params.id, agent: req.user._id }).exec(
+    (err, result) => {
       if (err) return res.status(400).end();
-      if (!profile) return res.sendStatus(404);
-      res.sendStatus(200);
-    });
-  });
+      if (!result.length) return res.sendStatus(404);
+      console.log(result, "result");
+      const profile = result[0];
+
+      if (profile.agent.toString() !== req.userData.userId) {
+        return res.status(401).send({
+          message: "You are not allowed to edit this profile.",
+        });
+      }
+      console.log(profile._id);
+      const oldPhoto = profile.mainImg;
+      console.log(oldPhoto);
+      fs.unlink(oldPhoto, (err) => {
+        console.log(err);
+      });
+      profile.mainImg = req.file.path;
+      console.log(profile.mainImg);
+      profile.save((err, profile) => {
+        if (err) return res.status(400).end();
+        if (!profile) return res.sendStatus(404);
+        res.sendStatus(200);
+      });
+    },
+  );
 };
 
 export const deletePhoto = (req, res) => {

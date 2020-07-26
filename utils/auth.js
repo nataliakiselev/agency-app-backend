@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 dotenv.config();
 
 export const newToken = (user) =>
-  jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
+  jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXP,
   });
 
@@ -37,7 +37,7 @@ export const signup = async (req, res) => {
   try {
     const user = await User.create(req.body);
     const token = newToken(user);
-    res.status(201).json({ token }); //userId: user.id, email: user.email,
+    res.status(201).json({ token: token, userId: user.id }); // email: user.email || user
   } catch (err) {
     return res.status(500).end();
   }
@@ -92,17 +92,18 @@ export const protect = async (req, res, next) => {
     return res.status(401).end();
   }
 
-  // const user = await User.findById(payload.userId)
-  //   .select("-password")
-  //   .lean()
-  //   .exec();
-  // console.log(user);
-  // if (!user) {
-  //   return res.status(401).end();
-  // }
-  // req.user = user;
-  req.userData = { userId: payload.userId };
-  console.log("req.user", req.userData);
+  const user = await User.findById(payload.userId)
+    .select("-password")
+    .lean()
+    .exec();
+  console.log(user);
+  if (!user) {
+    return res.status(401).end();
+  }
+  req.user = user;
+  console.log(req.user, "user");
+  // req.userData = { userId: payload.userId };
+  // console.log("req.user", req.userData);
 
   next();
 };

@@ -5,14 +5,13 @@ import jwt from "jsonwebtoken";
 dotenv.config();
 
 export const newToken = (user) =>
-  jwt.sign({ userId: user.id }, "secret", {
-    expiresIn: "2h",
+  jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXP,
   });
-// process.env.secrets.jwtExp;
-// process.env.secrets.jwt,
+
 export const verifyToken = (token) =>
   new Promise((resolve, reject) => {
-    jwt.verify(token, "secret", (err, payload) => {
+    jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
       if (err) return reject(err);
       resolve(payload);
       console.log(payload, "payload");

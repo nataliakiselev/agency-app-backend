@@ -29,15 +29,15 @@ export const getAll = (model) => async (req, res) => {
 export const getMany = (model) => async (req, res) => {
   try {
     const docs = await model.find({ agent: req.params.id }).exec();
-    console.log(req.params);
-    console.log(req.params.id, "agentId");
+    // console.log(req.params);
+    // console.log(req.params.id, "agentId");
     if (!docs || docs.length === 0) {
       return res.status(200).send({ data: [] });
     }
     //     .status(400)
     //     .send({ message: "Could not find profiles for this user" });
     // }
-    console.log(docs);
+    // console.log(docs);
     res.status(200).json({ data: docs });
   } catch (err) {
     console.error(err);
@@ -45,8 +45,8 @@ export const getMany = (model) => async (req, res) => {
   }
 };
 export const createOne = (model) => async (req, res) => {
-  console.log("body", req.body);
-  console.log("Headers", req.headers);
+  // console.log("body", req.body);
+  // console.log("Headers", req.headers);
 
   try {
     req.body.mainImg = req.file.path;
@@ -72,7 +72,7 @@ export const updateOne = (model) => async (req, res) => {
       .lean()
       .exec();
 
-    console.log("updatedDoc", updatedDoc);
+    // console.log("updatedDoc", updatedDoc);
 
     // const agentId = model.agent.toString();
     // if (req.userData.userId !== updatedDoc.agent)
@@ -105,7 +105,7 @@ export const removeOne = (model) => async (req, res) => {
 
     removed.photos.map((photo) => {
       const photoPath = photo.path;
-      console.log(photoPath, "path");
+      // console.log(photoPath, "path");
       fs.unlink(photoPath, (err) => {
         if (err) return res.status(500).send("Failed to unlink photos");
       });

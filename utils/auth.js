@@ -1,9 +1,6 @@
-import dotenv from "dotenv";
 import { User } from "../models/user.model";
 import jwt from "jsonwebtoken";
-import { response } from "express";
-
-dotenv.config();
+// import { response } from "express";
 
 export const newToken = (user) =>
   jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
@@ -106,7 +103,7 @@ export const protect = async (req, res, next) => {
     return res.status(401).end();
   }
   req.user = user;
-  console.log(req.user, "user");
+  // console.log(req.user, "user");
   // req.userData = { userId: payload.userId };
   // console.log("req.user", req.userData);
 

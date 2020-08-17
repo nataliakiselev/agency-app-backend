@@ -1,0 +1,10 @@
+{
+  "env": {
+    "PORT": 4000,
+    "DB_USER": "natalia",
+    "DB_PW": "firstfull",
+    "DB_NAME": "profiles",
+    "JWT_SECRET": "temporarykey",
+    "JWT_EXP": "2h"
+  }
+}

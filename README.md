@@ -3,8 +3,8 @@ This is the back end of a full-stack (MERN) application. It is written with Expr
 The front end app can be found here: https://github.com/Nat-K/agency-app
 
 ## Todo
-refactoring/tidy up for better code reusability /extensibility;
-deploy to heroku (seed initial data)
+
+deploy (seed initial data)
 
 ### Author
 

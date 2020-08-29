@@ -1,6 +1,5 @@
 import { User } from "../models/user.model";
 import { getAll } from "../utils/crud";
-// import { crudControllers } from "../utils/crud";
 
 export const getAllUsers = getAll(User);
 

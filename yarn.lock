@@ -2116,6 +2116,11 @@ has-yarn@^2.1.0:
   resolved "https://registry.yarnpkg.com/has-yarn/-/has-yarn-2.1.0.tgz#137e11354a7b5bf11aa5cb649cf0c6f3ff2b2e77"
   integrity sha512-UqBRqi4ju7T+TqGNdqAO0PaSVGsDGJUBQvk9eUWNGRY1CFGDzYhLWoM7JQEemnlvVcv/YEmc2wNW8BC24EnUsw==
 
+helmet@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/helmet/-/helmet-4.0.0.tgz#34c187894ed001834f997c688f2b2df19846b193"
+  integrity sha512-HyoRKKHhWhO6+EBfgRLkuZR4/+NXc1nJB7x0bWwW89i9eoPciK0qUqyZNOA/zowpgrW9C4+J5toqMkZrpBOlkg==
+
 home-or-tmp@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/home-or-tmp/-/home-or-tmp-2.0.0.tgz#e36c3f2d2cae7d746a857e38d18d5f32a7882db8"

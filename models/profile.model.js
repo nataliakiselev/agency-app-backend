@@ -40,12 +40,12 @@ const profileSchema = new Schema(
     },
     hair: {
       type: String,
-      // required: true,
+      required: true,
     },
 
     eyes: {
       type: String,
-      // required: true,
+      required: true,
     },
 
     email: {

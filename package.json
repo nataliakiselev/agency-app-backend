@@ -4,8 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon ./index.js --exec babel-node -e js"
+    "dev": "nodemon ./index.js --exec babel-node -e js",
+    "clean": "rm -rf build && mkdir build",
+    "build-babel": "babel -d ./build ./ -s",
+    "build": "babel -d index.js",
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
@@ -18,7 +21,6 @@
     "nodemon": "^2.0.4"
   },
   "dependencies": {
-    "babel-plugin-module-resolver": "^4.0.0",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",

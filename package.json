@@ -3,11 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "dev": "nodemon ./index.js --exec babel-node -e js",
-    "clean": "rm -rf build && mkdir build",
-    "build-babel": "babel -d ./build ./ -s",
-    "build": "babel -d index.js",
     "start": "node index.js"
   },
   "keywords": [],

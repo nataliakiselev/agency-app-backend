@@ -52,7 +52,7 @@ app.use((error, req, res, next) => {
 export const start = async () => {
   try {
     await connect();
-    app.listen(PORT, () => {
+    app.listen(PORT || 4000, () => {
       console.log(`MERN API on http://localhost:${PORT}/api`);
     });
   } catch (e) {

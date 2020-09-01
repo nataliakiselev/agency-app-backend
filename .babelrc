@@ -1,3 +1,13 @@
 {
-  "presets": ["env", "stage-0"]
+  "presets": [
+    [
+      "@babel/env",
+      {
+        "targets": {
+          "node": "current"
+        }
+      }
+    ]
+  ],
+  "ignore": "node-modules"
 }

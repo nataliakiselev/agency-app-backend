@@ -10,7 +10,7 @@
     "dev": "nodemon ./index.js --exec babel-node -e js",
     "clean": "rm -rf build && mkdir build",
     "build-babel": "babel ./ -d ./build ",
-    "build": "babel -d index.js",
+    "build": "yarn run clean && yarn run build-babel",
     "start": "node index.js"
   },
   "keywords": [],

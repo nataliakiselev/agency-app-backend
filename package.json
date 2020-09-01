@@ -8,9 +8,9 @@
   },
   "scripts": {
     "clean": "rm -rf build && mkdir build",
-    "build-server": "babel -d build ./server -s",
+    "build-server": "babel -d build ./src -s",
     "build": "yarn run clean && yarn run build-server",
-    "dev": "nodemon -r dotenv/config index.js --exec babel-node -e js",
+    "dev": "nodemon -r dotenv/config ./src/index.js --exec babel-node -e js",
     "start": "node .build/index.js",
     "debug": "node --debug ./build/index.js"
   },

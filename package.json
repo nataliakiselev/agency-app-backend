@@ -11,7 +11,7 @@
     "build-server": "babel -d build ./src -s",
     "build": "yarn run clean && yarn run build-server",
     "dev": "nodemon -r dotenv/config ./src/index.js --exec babel-node -e js",
-    "start": "node .build/index.js",
+    "start": "node ./build/index.js",
     "debug": "node --debug ./build/index.js"
   },
   "keywords": [],

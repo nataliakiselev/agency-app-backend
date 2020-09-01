@@ -14,7 +14,8 @@ app.use(cors());
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(bodyparser.json());
 
-const { PORT, DB_USER, DB_PW, DB_NAME } = process.env;
+const { PORT = 4000 } = process.env;
+const { DB_USER, DB_PW, DB_NAME } = process.env;
 const MONGODB_URI = `mongodb+srv://${DB_USER}:${DB_PW}@cluster0-sxep5.mongodb.net/${DB_NAME}?retryWrites=true&w=majority`;
 
 const connect = (url = MONGODB_URI) => {

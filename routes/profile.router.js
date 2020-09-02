@@ -1,6 +1,6 @@
 import { Router } from "express";
 import controllers, { deletePhoto } from "../controllers/profile.controllers";
-import upload from "../upload";
+import upload from "../../upload";
 import { addPhotos, updateCover } from "../controllers/profile.controllers";
 import { protect } from "../utils/auth";
 const router = Router();

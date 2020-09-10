@@ -2,7 +2,7 @@
 
 ## Description
 
-The back end of a full-stack (MERN) application. Auth is handled with JWT to the front-end. A complete REST api feeds the front end application and in production this acts as the file server.
+The back end of a full-stack (MERN) application.It is written with express, with use of native node functionality for file management. Auth is handled with JWT to the front-end. Encryption using bcrypt. A complete REST api feeds the front end application and in production this acts as the file server.
 The front end app can be found here: https://github.com/Nat-K/agency-app
 
 Deployed to Heroku (React frontend hosted on Firebase):

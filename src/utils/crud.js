@@ -1,5 +1,5 @@
 import fs from "fs";
-import util from "util";
+// import util from "util";
 
 export const getOne = (model) => async (req, res) => {
   try {

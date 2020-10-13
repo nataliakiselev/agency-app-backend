@@ -1,6 +1,7 @@
 import { crudControllers } from "../utils/crud";
 import { Profile } from "../models/profile.model";
 import fs from "fs";
+import AWS from "aws-sdk";
 // import util from "util";
 
 export const addPhotos = (req, res) => {

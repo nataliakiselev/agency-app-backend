@@ -32,7 +32,7 @@ router
   .route("/:id")
   .put(controllers.updateOne)
   .delete(controllers.removeOne)
-  .post(upload.array("photos", 10), addPhotos);
+  .post(upload.array("photos", 5), addPhotos);
 router.put("/:id/updatecover", upload.single("mainImg"), updateCover);
 router.delete("/:id/photo/:photo_id", deletePhoto);
 

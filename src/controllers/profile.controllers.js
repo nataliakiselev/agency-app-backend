@@ -1,6 +1,7 @@
 import { crudControllers } from "../utils/crud";
 import { Profile } from "../models/profile.model";
 import fs from "fs";
+import AWS from "aws-sdk";
 // import util from "util";
 
 export const addPhotos = (req, res) => {
@@ -11,13 +12,14 @@ export const addPhotos = (req, res) => {
     if (err) return res.status(400).end();
     if (!result.length) return res.sendStatus(404);
     const profile = result[0];
+    console.log(req.files, "req.file");
 
     profile.photos = [
       ...profile.photos,
       ...req.files.map((file) => {
         return {
-          path: file.path,
-          name: file.filename,
+          path: file.path || file.location,
+          name: file.filename || file.key,
         };
       }),
     ];
@@ -42,10 +44,10 @@ export const updateCover = (req, res) => {
       const oldPhoto = profile.mainImg;
       // console.log(oldPhoto);
       fs.unlink(oldPhoto, (err) => {
-        console.log(err);
+        console.log(err, "err");
       });
-      profile.mainImg = req.file.path;
-      // console.log(profile.mainImg);
+      profile.mainImg = req.file.path || req.file.location;
+      console.log(profile.mainImg);
       profile.save((err, profile) => {
         if (err) return res.status(400).end();
         if (!profile) return res.sendStatus(404);
@@ -86,7 +88,7 @@ export const deletePhoto = (req, res) => {
       });
       console.log(removed, "removed");
       const deletedPath = removed.path;
-      // console.log(deletedPath, "path");
+      console.log(deletedPath, "path");
 
       fs.unlink(deletedPath, (err) => {
         if (err) return res.status(500).send("Failed to unlink photo");

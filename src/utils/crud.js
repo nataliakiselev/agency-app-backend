@@ -1,5 +1,5 @@
 import fs from "fs";
-import util from "util";
+// import util from "util";
 
 export const getOne = (model) => async (req, res) => {
   try {
@@ -49,7 +49,7 @@ export const createOne = (model) => async (req, res) => {
   // console.log("Headers", req.headers);
 
   try {
-    req.body.mainImg = req.file.path;
+    req.body.mainImg = req.file.path || req.file.location;
     const doc = await model.create(req.body);
     res.status(201).json(doc);
   } catch (err) {
@@ -104,7 +104,7 @@ export const removeOne = (model) => async (req, res) => {
     });
 
     removed.photos.map((photo) => {
-      const photoPath = photo.path;
+      const photoPath = photo.path || photo.location;
       // console.log(photoPath, "path");
       fs.unlink(photoPath, (err) => {
         if (err) return res.status(500).send("Failed to unlink photos");

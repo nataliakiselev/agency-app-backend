@@ -1,4 +1,7 @@
 import fs from "fs";
+import AWS from "aws-sdk";
+
+const { AWS_ID, AWS_KEY, BUCKET_NAME, AWS_ENABLED } = process.env;
 // import util from "util";
 
 export const getOne = (model) => async (req, res) => {
@@ -104,7 +107,7 @@ export const removeOne = (model) => async (req, res) => {
     });
 
     removed.photos.map((photo) => {
-      const photoPath = photo.path || photo.location;
+      const photoPath = photo.path;
       // console.log(photoPath, "path");
       fs.unlink(photoPath, (err) => {
         if (err) return res.status(500).send("Failed to unlink photos");

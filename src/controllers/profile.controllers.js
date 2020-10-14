@@ -53,9 +53,11 @@ export const updateCover = (req, res) => {
       const profile = result[0];
       const oldPhoto = profile.mainImg;
       if (AWS_ENABLED) {
-        s3.deleteObject({ Key: oldPhoto.name }, function (err, data) {
+        console.log("aws enabled");
+        s3.deleteObject({ Key: oldPhoto }, function (err, data) {
           if (err) return res.status(500).send("Failed to delete photo");
-          // else console.log("removed Key", oldPhoto.name);
+          console.log("deleted cover");
+          // handleSuccess(data);
         });
       } else {
         fs.unlink(oldPhoto, (err) => {
@@ -107,7 +109,7 @@ export const deletePhoto = (req, res) => {
       if (AWS_ENABLED) {
         s3.deleteObject({ Key: removed.name }, function (err, data) {
           if (err) return res.status(500).send("Failed to delete photo");
-          // else console.log("removed Key", removed.name);
+          // handleSuccess(data);;
         });
       } else {
         fs.unlink(removed.path, (err) => {

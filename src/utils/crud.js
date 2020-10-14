@@ -64,7 +64,8 @@ export const createOne = (model) => async (req, res) => {
   // console.log("Headers", req.headers);
 
   try {
-    req.body.mainImg = req.file.path || req.file.location;
+    console.log(req.file);
+    req.body.mainImg = req.file.path || req.file.key;
     const doc = await model.create(req.body);
     res.status(201).json(doc);
   } catch (err) {
@@ -113,24 +114,29 @@ export const removeOne = (model) => async (req, res) => {
       agent: req.user._id,
       _id: req.params.id,
     });
+    console.log("removing", removed);
     if (AWS_ENABLED) {
-      s3.deleteObject({ Key: removed.mainImg.name }, function (err, data) {
+      console.log("aws enabled");
+      s3.deleteObject({ Key: removed.mainImg }, function (err, data) {
         if (err) return res.status(500).send("Failed to delete photo");
-        else console.log("removed Key", removed.mainImg.name);
+        console.log("mainImg deleted");
+        // handleSuccess(data);
       });
       removed.photos.map((photo) => {
         s3.deleteObject({ Key: photo.name }, function (err, data) {
           if (err) return res.status(500).send("Failed to delete photo");
+          console.log("photos deleted");
         });
       });
     } else {
       fs.unlink(removed.mainImg, (err) => {
         if (err) return res.status(500).send("Failed to unlink mainImg");
-        else console.log("photo removed");
+        else console.log("mainImg removed");
       });
       removed.photos.map((photo) => {
         fs.unlink(photo.path, (err) => {
           if (err) return res.status(500).send("Failed to unlink photos");
+          else console.log("photos removed");
         });
       });
     }

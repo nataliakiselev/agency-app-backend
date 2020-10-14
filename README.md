@@ -2,7 +2,7 @@
 
 ## Description
 
-The back end of a full-stack (MERN) application.It is written with express, with use of native node functionality for file management. Auth is handled with JWT to the front-end. Encryption using bcrypt. A complete REST api feeds the front end application and in production this acts as the file server.
+The back end of a full-stack (MERN) application. It is written with express, with use of native node functionality for file management. Auth is handled with JWT to the front-end. Encryption using bcrypt. A complete REST api feeds the front end application and in production this acts as the file server. AWS S3 service used for handling images in live demo.
 The front end app can be found here: https://github.com/nataliakiselev/agency-app-backend
 
 Deployed to Heroku (React frontend hosted on Firebase):
@@ -15,7 +15,7 @@ The images used in this repository are for demo purposes only, they are not my o
 
 ### todo:
 
-add image upload via AWS S3 bucket for live demo use
+add image optimisation ;
 
 ### Author
 

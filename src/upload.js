@@ -3,8 +3,7 @@ import multerS3 from "multer-s3";
 import { v4 as uuidv4 } from "uuid";
 import AWS from "aws-sdk";
 
-const { AWS_ID, AWS_KEY, BUCKET_NAME, NODE_ENV } = process.env;
-const production = NODE_ENV;
+const { AWS_ID, AWS_KEY, BUCKET_NAME, AWS_ENABLED } = process.env;
 
 // AWS.config.loadFromPath("./config.json");
 
@@ -35,7 +34,7 @@ const fileName = function (req, file, callback) {
   callback(null, uuidv4() + "." + ext);
 };
 
-const productionStorage = multerS3({
+const awsStorage = multerS3({
   s3: s3,
   bucket: BUCKET_NAME,
   acl: "public-read-write",
@@ -50,8 +49,7 @@ const localStorage = multer.diskStorage({
 });
 
 const upload = multer({
-  // storage: multer.diskStorage({})
-  storage: production ? productionStorage : localStorage,
+  storage: AWS_ENABLED ? awsStorage : localStorage,
   // storage: productionStorage,
   limits: {
     files: 5,

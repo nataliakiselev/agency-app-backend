@@ -46,20 +46,24 @@ export const addPhotos = (req, res) => {
 };
 
 export const updateCover = (req, res) => {
-  // console.log(req.params.id, "profile.id");
-
   Profile.find({ _id: req.params.id, agent: req.user._id }).exec(
     (err, result) => {
       if (err) return res.status(400).end();
       if (!result.length) return res.sendStatus(404);
-      // console.log(result, "result");
       const profile = result[0];
-      // console.log(profile._id);
       const oldPhoto = profile.mainImg;
-      // console.log(oldPhoto);
-      fs.unlink(oldPhoto, (err) => {
-        console.log(err, "err");
-      });
+      if (AWS_ENABLED) {
+        s3.deleteObject({ Key: oldPhoto.name }, function (err, data) {
+          if (err) return res.status(500).send("Failed to delete photo");
+          // else console.log("removed Key", oldPhoto.name);
+        });
+      } else {
+        fs.unlink(oldPhoto, (err) => {
+          if (err) return res.status(500).send("Failed to unlink photo");
+          // else console.log("photo removed");
+        });
+      }
+
       profile.mainImg = req.file.path || req.file.location;
       console.log(profile.mainImg);
       profile.save((err, profile) => {
@@ -79,8 +83,6 @@ export const deletePhoto = (req, res) => {
       if (!result) return res.sendStatus(404);
       const profile = result[0];
       const removedId = req.params.photo_id;
-      // console.log(removedId, "removedId");
-
       const removed = profile.photos.find((photo) => {
         // console.log(photo._id, removedId, photo._id.toString() === removedId);
         //NB:typeof
@@ -104,15 +106,13 @@ export const deletePhoto = (req, res) => {
 
       if (AWS_ENABLED) {
         s3.deleteObject({ Key: removed.name }, function (err, data) {
-          if (err) return res.status(500).send("Failed to unlink photo");
-          else console.log("removedKey", removed.name); // deleted
+          if (err) return res.status(500).send("Failed to delete photo");
+          // else console.log("removed Key", removed.name);
         });
       } else {
-        const deletedPath = removed.path;
-        console.log(deletedPath, "path");
-        fs.unlink(deletedPath, (err) => {
+        fs.unlink(removed.path, (err) => {
           if (err) return res.status(500).send("Failed to unlink photo");
-          console.log("photo removed");
+          // console.log("photo removed");
         });
       }
       profile.photos.pull(removed);

@@ -1,8 +1,20 @@
 import fs from "fs";
 import AWS from "aws-sdk";
+// import util from "util";
 
 const { AWS_ID, AWS_KEY, BUCKET_NAME, AWS_ENABLED } = process.env;
-// import util from "util";
+
+AWS.config.update({
+  accessKeyId: AWS_ID,
+  secretAccessKey: AWS_KEY,
+  region: "eu-west-2",
+});
+
+const s3 = new AWS.S3({
+  params: {
+    Bucket: BUCKET_NAME,
+  },
+});
 
 export const getOne = (model) => async (req, res) => {
   try {
@@ -101,19 +113,27 @@ export const removeOne = (model) => async (req, res) => {
       agent: req.user._id,
       _id: req.params.id,
     });
-    const imagePath = removed.mainImg;
-    fs.unlink(imagePath, (err) => {
-      if (err) return res.status(500).send("Failed to unlink mainImg");
-    });
-
-    removed.photos.map((photo) => {
-      const photoPath = photo.path;
-      // console.log(photoPath, "path");
-      fs.unlink(photoPath, (err) => {
-        if (err) return res.status(500).send("Failed to unlink photos");
+    if (AWS_ENABLED) {
+      s3.deleteObject({ Key: removed.mainImg.name }, function (err, data) {
+        if (err) return res.status(500).send("Failed to delete photo");
+        else console.log("removed Key", removed.mainImg.name);
       });
-    });
-
+      removed.photos.map((photo) => {
+        s3.deleteObject({ Key: photo.name }, function (err, data) {
+          if (err) return res.status(500).send("Failed to delete photo");
+        });
+      });
+    } else {
+      fs.unlink(removed.mainImg, (err) => {
+        if (err) return res.status(500).send("Failed to unlink mainImg");
+        else console.log("photo removed");
+      });
+      removed.photos.map((photo) => {
+        fs.unlink(photo.path, (err) => {
+          if (err) return res.status(500).send("Failed to unlink photos");
+        });
+      });
+    }
     if (!removed) {
       return res.status(400).end();
     }

@@ -51,23 +51,26 @@ export const updateCover = (req, res) => {
       if (err) return res.status(400).end();
       if (!result.length) return res.sendStatus(404);
       const profile = result[0];
-      const oldPhoto = profile.mainImg;
+
       if (AWS_ENABLED) {
         console.log("aws enabled");
-        s3.deleteObject({ Key: oldPhoto }, function (err, data) {
+        s3.deleteObject({ Key: profile.mainKey }, function (err, data) {
           if (err) return res.status(500).send("Failed to delete photo");
-          console.log("deleted cover");
+          console.log("deleted cover", profile.mainKey);
           // handleSuccess(data);
         });
       } else {
-        fs.unlink(oldPhoto, (err) => {
+        fs.unlink(profile.mainImg, (err) => {
           if (err) return res.status(500).send("Failed to unlink photo");
           // else console.log("photo removed");
         });
       }
 
       profile.mainImg = req.file.path || req.file.location;
-      console.log(profile.mainImg);
+      if (req.file.key) {
+        profile.mainKey = req.file.key;
+      }
+      console.log(profile.mainImg, "newMainImg");
       profile.save((err, profile) => {
         if (err) return res.status(400).end();
         if (!profile) return res.sendStatus(404);

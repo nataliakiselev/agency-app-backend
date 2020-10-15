@@ -77,6 +77,9 @@ const profileSchema = new Schema(
       type: String,
       required: true,
     },
+    mainKey: {
+      type: String,
+    },
     photos: [
       {
         path: {

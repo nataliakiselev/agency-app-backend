@@ -64,8 +64,13 @@ export const createOne = (model) => async (req, res) => {
   // console.log("Headers", req.headers);
 
   try {
-    console.log(req.file);
-    req.body.mainImg = req.file.path || req.file.key;
+    console.log(req.file, "req.file");
+    console.log(req.body, "body");
+    req.body.mainImg = req.file.path || req.file.location;
+
+    if (req.file.key) {
+      req.body.mainKey = req.file.key;
+    }
     const doc = await model.create(req.body);
     res.status(201).json(doc);
   } catch (err) {
@@ -117,7 +122,7 @@ export const removeOne = (model) => async (req, res) => {
     console.log("removing", removed);
     if (AWS_ENABLED) {
       console.log("aws enabled");
-      s3.deleteObject({ Key: removed.mainImg }, function (err, data) {
+      s3.deleteObject({ Key: removed.mainKey }, function (err, data) {
         if (err) return res.status(500).send("Failed to delete photo");
         console.log("mainImg deleted");
         // handleSuccess(data);

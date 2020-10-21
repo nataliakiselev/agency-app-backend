@@ -6,7 +6,7 @@ The back end of a full-stack (MERN) application. It is written with express, wit
 
 The front end app can be found here: https://github.com/nataliakiselev/agency-app-backend .
 
-To test the whole spectrum of the app functionality login is necessary. Logged in user will have access to his own profiles portfolio view, private information on his own profiles, and to options to edit prfoile's data and main image, add (multipart/form-data handled with multer) or delete gallery images, delete and create profiles.
+To test the whole spectrum of the app functionality login is necessary. Logged in user will have access to his own profiles portfolio page, private information on his own profiles, and to options to edit profile's data and main image, add (multipart/form-data handled with multer) or delete gallery images, delete and create profiles.
 Test login for live demo: email: test@img.com, password: test1111
 To create a new user/login, choose "register" option from the login menu.
 

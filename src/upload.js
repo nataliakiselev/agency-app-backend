@@ -52,8 +52,8 @@ const upload = multer({
   storage: AWS_ENABLED ? awsStorage : localStorage,
   // storage: productionStorage,
   limits: {
-    files: 5,
-    fileSize: 2 * 2000 * 2000,
+    files: 10,
+    fileSize: 1 * 1500 * 1500,
   },
   fileFilter: (req, file, cb) => {
     const isValid = !!MIME_TYPE_MAP[file.mimetype];

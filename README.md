@@ -1,8 +1,8 @@
-# Agency App
+# Agency App Serverside
 
 ## Description
 
-The back end of a full-stack (MERN) application. It is written with express, with use of native node functionality for file management. Auth is handled with JWT to the front-end. Encryption using bcrypt. A complete REST api feeds the front end application and in production this acts as the file server, with AWS storage options integrated for ephemeral file systems.
+The back end of a full-stack (MERN) application. It is written with express, with use of native node functionality for file management and MongoDB database. Auth is handled with JWT to the front-end. Encryption using bcrypt. A complete REST api feeds the front end application and in production this acts as the file server, with AWS storage options integrated for ephemeral file systems.
 
 The front end app can be found here: https://github.com/nataliakiselev/agency-app-backend .
 

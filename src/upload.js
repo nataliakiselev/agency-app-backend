@@ -53,7 +53,7 @@ const upload = multer({
   // storage: productionStorage,
   limits: {
     files: 10,
-    fileSize: 1 * 1500 * 1500,
+    fileSize: 1 * 1024 * 1024,
   },
   fileFilter: (req, file, cb) => {
     const isValid = !!MIME_TYPE_MAP[file.mimetype];
